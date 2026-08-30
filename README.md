@@ -1,6 +1,6 @@
 # Electro Bazaar ⚡
 
-Electro Bazaar is a specialized electronics e-commerce platform built using Python and Django. The system includes standard online retail functionality alongside deep product categorization, dynamic specifications handling, and secure Google OAuth integration.
+Electro Bazaar is a specialized electronics e-commerce platform built using Python and Django. The system includes standard online retail functionality alongside deep product categorization, dynamic specifications handling, and JWT for google login.
 
 ---
 
