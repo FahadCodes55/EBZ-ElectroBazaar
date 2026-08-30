@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %} ElectroBazaar Order Details {% endblock %}
+
+{% block body %}
+<!-- Loading Tailwind just for this page to ensure the card styles work perfectly -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="bg-gray-50 flex flex-col items-center justify-center py-12 px-4 min-h-[70vh]">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-8 text-center transition-all border border-gray-100">
+
+        <!-- Green Checkmark Icon -->
+        <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-6">
+            <svg class="h-10 w-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+
+        <h1 class="text-2xl font-bold text-gray-900 mb-2">Order Confirmed!</h1>
+        <p class="text-gray-500 mb-6">Thank you, {{ order.full_name }}.<br>Order ID: <strong>#{{ order.id }}</strong></p>
+
+        <!-- Order Summary Box -->
+        <div class="bg-gray-50 rounded-lg p-4 mb-8 text-left border border-gray-200">
+
+            <div class="mb-4 pb-3 border-b border-gray-200">
+                <span class="text-sm font-bold text-gray-800 block mb-3 uppercase tracking-wider">Items Ordered:</span>
+                {% for item in order.items.all %}
+                <div class="flex justify-between mb-2">
+                    <span class="text-sm text-gray-600">{{ item.quantity }}x {{ item.product.name }}</span>
+                    <span class="text-sm font-medium text-gray-900">${{ item.price }}</span>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="flex justify-between mb-2">
+                <span class="text-sm font-medium text-gray-500">Payment:</span>
+                <span class="text-sm font-bold text-yellow-600">Cash on Delivery</span>
+            </div>
+
+            <div class="flex justify-between mt-3 pt-3 border-t border-gray-200">
+                <span class="text-base font-bold text-gray-900">Grand Total:</span>
+                <span class="text-base font-bold text-gray-900">${{ order.total_amount }}</span>
+            </div>
+        </div>
+
+        <a href="{% url 'home' %}" class="block w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200">
+            Continue Shopping
+        </a>
+    </div>
+</div>
+{% endblock %}

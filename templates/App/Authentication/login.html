@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - ElectroStore</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /* Deep, warm dark background to make the orange pop */
+            background: linear-gradient(135deg, #1a1614 0%, #241d19 50%, #2e231d 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        /* Glassmorphism Card */
+        form {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 50px 40px;
+            border-radius: 24px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Header Text */
+        .form-header {
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .form-header p {
+            font-size: 0.9rem;
+            color: #b0c4de;
+        }
+
+        /* Alert Messages */
+        .alert {
+            background: rgba(255, 87, 87, 0.2);
+            border-left: 4px solid #ff4757;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            text-align: left;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        /* Input Fields */
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #e0e0e0;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            color: #fff;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            /* Orange Glow on Focus */
+            border-color: #ff8c00;
+            box-shadow: 0 0 15px rgba(255, 140, 0, 0.25);
+        }
+
+
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-wrapper input {
+            padding-right: 45px;
+        }
+
+        #toggle-password {
+            position: absolute;
+            right: 15px;
+            cursor: pointer;
+            color: #888;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        #toggle-password:hover {
+            color: #FFA500;
+        }
+
+        /* Submit Button */
+        form input[type="submit"] {
+            width: 100%;
+            /* Your original ElectroStore orange gradient! */
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        form input[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(241, 39, 17, 0.35);
+        }
+
+        /* Register Link */
+        .register-link {
+            font-size: 0.9rem;
+            color: #b0c4de;
+        }
+
+        .register-link a {
+            color: #ff8c00;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .register-link a:hover {
+            color: #fff;
+            text-shadow: 0 0 8px rgba(255, 140, 0, 0.6);
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .divider::before { margin-right: 15px; }
+        .divider::after { margin-left: 15px; }
+
+        /* FIXED: Transparent Google Button Wrapper */
+        .google-btn-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            form { padding: 40px 25px; }
+            .form-header h2 { font-size: 1.7rem; }
+        }
+    </style>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+      function handleCredentialResponse(response) {
+         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+         fetch("{% url 'google_jwt_login' %}", {
+             method: 'POST',
+             headers: {
+                 'Content-Type': 'application/json',
+                 'X-CSRFToken': csrfToken
+             },
+             body: JSON.stringify({ credential: response.credential })
+         })
+         .then(res => res.json())
+         .then(data => {
+             if (data.status === 'success') {
+                 window.location.href = '/';
+             } else {
+                 alert('Google Login Failed: ' + data.message);
+             }
+         });
+      }
+    </script>
+</head>
+<body>
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        <div class="form-header">
+            <h2>Welcome Back</h2>
+            <p>Sign in to continue to ElectroStore</p>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert"><i class="fas fa-exclamation-circle"></i> {{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" placeholder="Enter your username" required>
+        </div>
+
+        <div class="input-group">
+            <label for="password-field">Password</label>
+            <div class="password-wrapper">
+                <input type="password" name="password" id="password-field" placeholder="Enter your password" required>
+                <i class="fa-solid fa-eye" id="toggle-password"></i>
+            </div>
+        </div>
+
+        <input type="submit" value="Sign In">
+
+        <p class="register-link">New here? <a href="{% url 'register' %}">Create an account</a></p>
+
+        <div class="divider">OR</div>
+
+        <!-- Google Login Button Configuration -->
+        <div id="g_id_onload"
+             data-client_id="262691374238-jtlir0qo8et0gp86bnt04o19l4vch8e2.apps.googleusercontent.com"
+             data-callback="handleCredentialResponse"
+             data-auto_prompt="false">
+        </div>
+
+        <!-- Google's Rendered Button -->
+        <div class="google-btn-wrapper">
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-size="large"
+                 data-theme="outline"
+                 data-text="signin_with"
+                 data-shape="pill"
+                 data-width="240"
+                 data-logo_alignment="center">
+            </div>
+        </div>
+    </form>
+
+    <script>
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordField = document.getElementById('password-field');
+
+        if (togglePassword && passwordField) {
+            togglePassword.addEventListener('click', function () {
+                // Check current input type and toggle it
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+
+                // Toggle the eye / eye-slash icon classes
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        }
+    </script>
+</body>
+</html>

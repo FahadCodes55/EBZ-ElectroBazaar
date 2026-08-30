@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}ElectroBazaar - Checkout{% endblock %}
+
+{% block body %}
+
+    <div class="checkout-page">
+    <div class="checkout-container">
+
+        <div class="shipping-section">
+            <h2>Shipping & Delivery</h2>
+
+            <form id="checkout-form" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" placeholder="Full Name" name="full_name" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Address" name="address" required>
+                </div>
+                <div class="form-row">
+                    <input type="text" placeholder="City" name="city" required>
+                    <input type="text" placeholder="Zip Code" name="zip_code" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" placeholder="Phone Number" name="phone_no" required>
+                </div>
+
+                <h3>Payment Method</h3>
+            <div class="payment-options">
+                <label class="payment-card">
+                    <input type="radio" name="payment_method" value="cod" checked>
+                    <div class="payment-content">
+                        <span>📦 Cash on Delivery</span>
+                    </div>
+                </label>
+
+                <label class="payment-card">
+                    <input type="radio" name="payment_method" value="stripe">
+                    <div class="payment-content">
+                        <span>💳 Pay with Stripe (Card)</span>
+                    </div>
+                </label>
+            </div>
+
+                <button type="submit" class="place-order-btn">Place Order</button>
+        </form>
+
+        </div>
+
+        <div class="summary-section">
+            <h3>Order Summary</h3>
+
+            <div class="summary-items">
+                {% for item in cart_items %}
+                <div class="summary-item">
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                    <div class="item-info">
+                        <p class="item-name">{{ item.product.name }}</p>
+                        <p class="item-meta">{{ item.quantity }} x ${{ item.product.price }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <p>Your cart is empty.</p>
+                {% endfor %}
+            </div>
+
+            <div class="summary-totals">
+                <div class="total-row"><span>Subtotal</span><span>${{ sub_total }}</span></div>
+                <div class="total-row"><span>Tax (5%)</span><span>Calculated at checkout</span></div>
+                <hr>
+                <div class="grand-total">
+                    <span>Total</span>
+                    <span>${{ grand_total }}</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

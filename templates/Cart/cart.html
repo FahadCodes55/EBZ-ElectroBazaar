@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %} ElectroBazaar Shopping-Cart {% endblock %}
+
+{% block body %}
+<div class="cart-container">
+    <h1 class="cart-title">🛒 Shopping Cart</h1>
+
+    {% for item in items %}
+    <div class="cart-item">
+        <img src="{{ item.product.image.url }}" class="cart-img" alt="{{ item.product.name }}">
+
+        <div class="item-details">
+            <h3>{{ item.product.name }}</h3>
+            <p class="description">{{ item.product.description|truncatewords:15 }}</p>
+
+            <div class="price-qty">
+                <span class="price">Price: ${{ item.product.price }}</span>
+
+                <div class="quantity-wrapper">
+                    <a href="{% url 'minus_cart' item.product.id %}" class="btn-qty">-</a>
+                    <input type="text" class="qty-input" value="{{ item.quantity }}" readonly>
+                    <a href="{% url 'add_cart' item.product.id %}" class="btn-qty">+</a>
+                </div>
+                <a href="{% url 'remove_cart' item.id %}">
+                    <i class="fa-solid fa-trash-can" style="color: orange;"></i>
+                </a>
+            </div>
+
+        </div>
+        <div class="subtotal-display">Item Total: <strong>${{ item.subtotal }}</strong></div>
+    </div>
+    {% empty %}
+    <div class="empty-cart">
+        <p>Your ElectroBazaar cart is empty.</p>
+        <a href="{% url 'home' %}" class="btn">Continue Shopping</a>
+    </div>
+    {% endfor %}
+
+    {% if items %}
+    <div class="coupon">
+        <input type="text" placeholder="Coupon code">
+        <button type="button">Apply</button>
+    </div>
+
+    <div class="summary">
+        <div><span>Subtotal</span><span>$ {{ sub_total }}</span></div>
+        <div><span>Discount</span><span>$ {{ discount }}</span></div>
+        <div><span>Shipping</span><span>$ {{ shipping }}</span></div>
+        <div><span>Tax (5%)</span><span>$ {{ tax }}</span></div>
+        <hr>
+        <div class="total"><span>Total</span><span>$ {{ grand_total }}</span></div>
+    </div>
+
+    <div class="checkout-btn-container">
+        <a href="{% url 'checkout' %}" class="btn btn-primary" style="color: #fff;">Proceed to Checkout</a>
+    </div>
+
+    {% endif %}
+</div>
+{% endblock %}

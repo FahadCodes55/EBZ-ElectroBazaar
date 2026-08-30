@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %} Electro Bazaar - Home {% endblock %}
+
+{% block body %}
+
+<section class="hero-banner">
+  <div class="container hero-content">
+    <div class="hero-text">
+    </div>
+  </div>
+</section>
+
+<section class="products-section">
+  <div class="container">
+    <h2 class="section-title">Top Rated Products</h2>
+    <div class="products-grid">
+      {% for item in items %}
+      <div class="product-card">
+        {% if item.image %}
+        <img src="{{ item.image.url }}" class="product-img" alt="image">
+        {% else %}
+        <p>No Image Available</p>
+        {% endif %}
+        <h3>{{ item.name | truncatechars:30 }}</h3>
+        <p>{{ item.description | truncatechars:80 }}</p>
+        <div class="price">$ {{ item.price }}</div>
+        {% if user.is_authenticated %}
+        <a href="{% url 'product-detail' item.id %}" class="btn">Read more</a>
+        {% else %}
+        <a href="{% url 'login' %}" class="btn" style="color: #fff;">Login to shop</a>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="products-section">
+  <div class="container">
+    <h2 class="section-title">Why Choose Our Electronics?</h2>
+    <div class="features">
+      <div class="feature-box">
+        <h3>⚡ Latest Technology</h3>
+        <p>Stay ahead with cutting-edge gadgets and devices</p>
+      </div>
+      <div class="feature-box">
+        <h3>🔒 Trusted Quality</h3>
+        <p>Certified electronics with warranty and durability</p>
+      </div>
+      <div class="feature-box">
+        <h3>🚚 Fast & Secure Delivery</h3>
+        <p>Get your electronics delivered safely within 2-3 days</p>
+      </div>
+      <div class="feature-box">
+        <h3>💰 Competitive Prices</h3>
+        <p>Affordable deals without compromising performance</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Us Section -->
+<section class="about-section">
+  <div class="container">
+    <h2 class="section-title">About ElectroBazaar</h2>
+    <div class="about-content">
+      <div class="about-text">
+        <h3>Who We Are</h3>
+        <p>ElectroBazaar is a leading e-commerce platform dedicated to bringing you the latest and greatest in consumer electronics. From cutting-edge smartphones and powerful laptops to essential accessories and smart home devices, we curate a selection that meets the needs of modern digital lifestyles.</p>
+        <p>Founded in 2024, our mission is simple: to provide high-quality electronics at competitive prices, backed by exceptional customer service and fast, reliable delivery.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat">
+          <span class="stat-number">10k+</span>
+          <span class="stat-label">Happy Customers</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">500+</span>
+          <span class="stat-label">Products</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">50+</span>
+          <span class="stat-label">Brands</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">24/7</span>
+          <span class="stat-label">Support</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Us Section -->
+<section class="contact-section">
+  <div class="container">
+    <h2 class="section-title">Contact Us</h2>
+    <div class="contact-wrapper">
+      <div class="contact-info">
+        <div class="info-card">
+          <div class="info-icon">📍</div>
+          <h3>Visit Us</h3>
+          <p>Satellite Town, C Block<br>Gujranwala City, TC 54676<br>Pakistan</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">📞</div>
+          <h3>Call Us</h3>
+          <p>+923123456789<br>Mon-Fri, 9am - 6pm</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">✉️</div>
+          <h3>Email Us</h3>
+          <p>support@electrobazaar.com<br>sales@electrobazaar.com</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">💬</div>
+          <h3>Live Chat</h3>
+          <p>Available 24/7 for support</p>
+        </div>
+      </div>
+
+      <form action="/contact/" method="POST">
+        {% csrf_token %}
+      <div class="contact-form">
+      <div class="form-row">
+        <input type="text" name="name" placeholder="Your Name"
+               value="{% if user.is_authenticated %}
+                        {{ user.username }}
+                      {% endif %}"
+                      {% if user.is_authenticated %}
+                        readonly
+                      {% endif %} required>
+        <input type="email" name="email" placeholder="Your Email"
+               value="{% if user.is_authenticated %}
+                        {{ user.email }}
+                      {% endif %}"
+                      {% if user.is_authenticated %}
+                        readonly
+                      {% endif %} required>
+      </div>
+      <input type="text" name="subject" placeholder="Subject" required>
+      <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
+      <button type="submit" class="submit-btn">Send Message</button>
+      </div>
+    </form>
+
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

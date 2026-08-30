@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+
+{% block title %} ElectroBazaar - Home Electronics {% endblock %}
+
+{% block body %}
+
+    <form action="" method="POST"> {% csrf_token %}
+    <section class="products-section">
+        <div class="container">
+            <h2 class="section-title">Latest Home Electronics</h2>
+            <div class="products-grid">
+
+                {% for item in product %}
+                <div class="product-card">
+                    {% if item.image %}
+                    <img src="{{ item.image.url }}" class="product-img">
+                    {% else %}
+                    <p>No Image Available</p>
+                    {% endif %}
+                    <h3>{{ item.name }}</h3>
+                    <p>{{ item.description }}</p>
+                    <div class="price">$ {{ item.price }}</div>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'product-detail' item.id %}" class="btn" style="color: #fff;">Read more</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn" style="color: #fff;">Login to shop</a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+
+</form>
+
+{% endblock %}

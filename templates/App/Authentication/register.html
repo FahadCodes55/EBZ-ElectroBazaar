@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - ElectroStore</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /* Deep, warm dark background to make the orange pop */
+            background: linear-gradient(135deg, #1a1614 0%, #241d19 50%, #2e231d 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            /* Allows scrolling if the form is taller than the screen */
+            align-items: flex-start;
+            font-family: 'Poppins', sans-serif;
+            padding: 50px 20px;
+            color: #fff;
+        }
+
+        /* Glassmorphism Card */
+        form {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 45px 40px;
+            border-radius: 24px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            animation: fadeIn 0.6s ease-out;
+            /* Centers perfectly when there is extra room */
+            margin: auto;
+        }
+
+        /* Header Text */
+        .form-header {
+            margin-bottom: 25px;
+        }
+
+        .form-header h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .form-header p {
+            font-size: 0.9rem;
+            color: #b0c4de;
+        }
+
+        /* Alert Messages */
+        .alert {
+            background: rgba(255, 87, 87, 0.2);
+            border-left: 4px solid #ff4757;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            text-align: left;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        /* Input Fields */
+        .input-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #e0e0e0;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            color: #fff;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            /* Orange Glow on Focus */
+            border-color: #ff8c00;
+            box-shadow: 0 0 15px rgba(255, 140, 0, 0.25);
+        }
+
+
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-wrapper input {
+            padding-right: 45px;
+        }
+
+        #toggle-password {
+            position: absolute;
+            right: 15px;
+            cursor: pointer;
+            color: #888;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        #toggle-password:hover {
+            color: #FFA500;
+        }
+
+        /* Submit Button */
+        form input[type="submit"] {
+            width: 100%;
+            /* Your original ElectroStore orange gradient! */
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        form input[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(241, 39, 17, 0.35);
+        }
+
+        /* Login Link */
+        .login-link {
+            font-size: 0.9rem;
+            color: #b0c4de;
+        }
+
+        .login-link a {
+            color: #ff8c00;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .login-link a:hover {
+            color: #fff;
+            text-shadow: 0 0 8px rgba(255, 140, 0, 0.6);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            form { padding: 40px 25px; }
+            .form-header h2 { font-size: 1.7rem; }
+        }
+    </style>
+</head>
+<body>
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        <div class="form-header">
+            <h2>Create Account</h2>
+            <p>Join ElectroStore today</p>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert"><i class="fas fa-exclamation-circle"></i> {{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" placeholder="Enter a username" required>
+        </div>
+
+        <div class="input-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" placeholder="Enter your email" required>
+        </div>
+
+        <div class="input-group">
+            <label for="password-field">Password</label>
+            <div class="password-wrapper">
+                <input type="password" name="password" id="password-field" placeholder="Enter your password" required>
+                <i class="fa-solid fa-eye" id="toggle-password"></i>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="password2">Confirm Password</label>
+            <input type="password" name="password2" id="password2" placeholder="Confirm your password" required>
+        </div>
+
+        <input type="submit" value="Register">
+
+        <p class="login-link">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+    </form>
+
+    <script>
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordField = document.getElementById('password-field');
+
+        if (togglePassword && passwordField) {
+            togglePassword.addEventListener('click', function () {
+                // Check current input type and toggle it
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+
+                // Toggle the eye / eye-slash icon classes
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        }
+    </script>
+</body>
+</html>
